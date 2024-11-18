@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.hardware;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 import static org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive.PARAMS;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -16,8 +15,7 @@ import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
+import org.firstinspires.ftc.teamcode.hardware.caching.GobildaServo;
 import org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Drive;
@@ -27,22 +25,22 @@ import java.lang.System;
 import java.util.List;
 
 public class Robot {
-    public SolversMotor liftBottom;
-    public SolversMotor liftTop;
-    public SolversMotor extension;
-    public SolversMotor intakeMotor;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor liftBottom;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor liftTop;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor extension;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor intakeMotor;
 
-    public SolversMotor frontLeftMotor;
-    public SolversMotor frontRightMotor;
-    public SolversMotor backLeftMotor;
-    public SolversMotor backRightMotor;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor frontLeftMotor;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor frontRightMotor;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor backLeftMotor;
+    public org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor backRightMotor;
 
-    public SolversServo leftIntakePivot;
-    public SolversServo rightIntakePivot;
+    public GobildaServo leftIntakePivot;
+    public GobildaServo rightIntakePivot;
 
-    public SolversServo leftDepositPivot;
-    public SolversServo rightDepositPivot;
-    public SolversServo depositClaw;
+    public GobildaServo leftDepositPivot;
+    public GobildaServo rightDepositPivot;
+    public GobildaServo depositClaw;
 
     public Motor.Encoder liftEncoder;
     public Motor.Encoder extensionEncoder;
@@ -72,15 +70,15 @@ public class Robot {
 
     // Make sure to run this after instance has been enabled/made
     public void init(HardwareMap hardwareMap) {
-        liftBottom = new SolversMotor((hardwareMap.get(DcMotor.class, "liftBottom")), 0.01);
-        liftTop = new SolversMotor(hardwareMap.get(DcMotor.class, "liftTop"), 0.01);
-        extension = new SolversMotor(hardwareMap.get(DcMotor.class, "extension"), 0.01);
-        intakeMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "intakeMotor"), 0.01);
+        liftBottom = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor((hardwareMap.get(DcMotor.class, "liftBottom")), 0.01);
+        liftTop = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "liftTop"), 0.01);
+        extension = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "extension"), 0.01);
+        intakeMotor = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "intakeMotor"), 0.01);
 
-        frontLeftMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "FL"), 0.01);
-        frontRightMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "FR"), 0.01);
-        backLeftMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "BL"), 0.01);
-        backRightMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "BR"), 0.01);
+        frontLeftMotor = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "FL"), 0.01);
+        frontRightMotor = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "FR"), 0.01);
+        backLeftMotor = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "BL"), 0.01);
+        backRightMotor = new org.firstinspires.ftc.teamcode.hardware.caching.YJGobildaMotor(hardwareMap.get(DcMotor.class, "BR"), 0.01);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -109,11 +107,11 @@ public class Robot {
 
 //        liftEncoder.setDirection(Motor.Direction.REVERSE);
 
-        leftIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "leftIntakePivot"), 0.01);
-        rightIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "rightIntakePivot"), 0.01);
-        leftDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "leftDepositPivot"), 0.01);
-        rightDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "rightDepositPivot"), 0.01);
-        depositClaw = new SolversServo(hardwareMap.get(Servo.class, "depositClaw"), 0.01);
+        leftIntakePivot = new GobildaServo(hardwareMap.get(Servo.class, "leftIntakePivot"), 0.01);
+        rightIntakePivot = new GobildaServo(hardwareMap.get(Servo.class, "rightIntakePivot"), 0.01);
+        leftDepositPivot = new GobildaServo(hardwareMap.get(Servo.class, "leftDepositPivot"), 0.01);
+        rightDepositPivot = new GobildaServo(hardwareMap.get(Servo.class, "rightDepositPivot"), 0.01);
+        depositClaw = new GobildaServo(hardwareMap.get(Servo.class, "depositClaw"), 0.01);
 //        intakeClaw = new SolversServo(hardwareMap.get(Servo.class, "intakeClaw"), 0.01);
 //        trayServo = new SolversServo(hardwareMap.get(Servo.class, "trayServo"), 0.01);
 //        wrist = new SolversServo(hardwareMap.get(Servo.class, "wrist"), 0.01);
